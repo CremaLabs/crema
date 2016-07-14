@@ -1,2 +1,2 @@
-# Andy is cool
+# conway is cool
 ## ok
