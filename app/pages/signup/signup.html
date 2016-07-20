@@ -1,15 +1,31 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Sign Up
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-<input [(ngModel)]=user.fullName type="text" name="input-fullName" placeholder="Name">
-  <input [(ngModel)]=user.username type="text" name="input-username" placeholder="Username">
-  <input [(ngModel)]=user.password type="password" name="input-password" placeholder="Password">
-  <input [(ngModel)]=user.email type="email" name="input-email" placeholder="Email">
-  <input type="submit" name="input-username">
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>Full Name</ion-label>
+      <ion-input [(ngModel)]=user.fullName type="text" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input [(ngModel)]=user.email type="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Username</ion-label>
+      <ion-input [(ngModel)]=user.username type="text" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input [(ngModel)]=user.password type="password" required></ion-input>
+    </ion-item>
+  </ion-list>
+  <button full type="submit">SUBMIT</button>
+  <br />
+  <div>Already have an account? <a (click)="goBack()">Sign In</a></div>
 </ion-content>
