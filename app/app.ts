@@ -1,18 +1,23 @@
-import {Component} from '@angular/core';
-import {Platform, MenuController, ionicBootstrap} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {Platform, MenuController, Nav, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 
+import { MapPage } from './pages/map/map';
+import { UserSettingsPage } from './pages/user-settings/user-settings';
 import {SigninPage} from './pages/signin/signin';
 
 import {AuthService} from './providers/auth/auth.service';
 
 
 @Component({
-  template: '<ion-nav [root]="rootPage"></ion-nav>',
+  templateUrl: 'build/app.html',
   providers: [ AuthService ]
 })
 export class MyApp {
-  rootPage:any = SigninPage;
+  @ViewChild(Nav) nav: Nav;
+
+  rootPage: any = SigninPage;
+  pages: Array<{title: string, component: any}>
 
   constructor(
     private platform: Platform,
@@ -23,6 +28,15 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
     });
+    this.pages = [
+      { title: 'Home', component: MapPage },
+      { title: 'User Settings', component: UserSettingsPage }
+    ];
+  }
+
+  openPage(page) {
+    this.menu.close();
+    this.nav.setRoot(page.component);
   }
 }
 
