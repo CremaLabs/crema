@@ -5,4 +5,5 @@ export class Shop {
   openNow: boolean;
   address: string;
   details: any;
+  metrics: number;
 }
