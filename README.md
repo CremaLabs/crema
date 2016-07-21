@@ -1,5 +1,5 @@
 # Crema - Mobile
----
+
 
 Find the nearest coffee shops that you can work from. <br/>
 
@@ -7,7 +7,7 @@ Find the nearest coffee shops that you can work from. <br/>
 
 
 ## How To Run Application
----
+
 
 ### Install Ionic 2 and Cordova
 
