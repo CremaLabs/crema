@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController} from 'ionic-angular';
 import { ShopService } from '../../providers/shops/shops.service';
+import { ListItemDetailPage } from '../list-item-detail/list-item-detail';
 
 /*
   Generated class for the ListPage page.
@@ -18,15 +19,11 @@ export class ListPage {
 
   constructor(private nav: NavController, private shopService: ShopService) {
     this.shops = shopService.getShops();
+    console.log(this.shops);
   }
 
-  //get the cafe data which is stored in params
-
-  getListItemDetails() {
-    // when the user taps a list item, 
-    // expand it and show more details
+  getListItemDetails(shop) {
+    // when the user taps a list item show details
+    this.nav.push(ListItemDetailPage, {shop: shop});
   }
-
-
-
 }

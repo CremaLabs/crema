@@ -3,19 +3,21 @@
     <button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Nearby Cafes</ion-title>
+    <ion-title>{{shop.name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let shop of shops" (click)="getListItemDetails(shop)">
-      <span>{{shop.name}}</span>
+    <ion-item>
+      <div>{{shop.name}}</div>
+      <img src={{shop.photo}}/>
       <span *ngIf="shop.openNow">Open</span>
       <span *ngIf="!shop.openNow">Closed</span>
-      <span>{{shop.metrics}} </span>
+      <span>Availability: {{shop.metrics}} </span>
       <div>{{shop.address}}</div>
+      <div>{{shop.description}}</div>
     </ion-item>
   </ion-list>
 
