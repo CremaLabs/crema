@@ -25,7 +25,7 @@
       <ion-input [(ngModel)]=user.password type="password" required></ion-input>
     </ion-item>
   </ion-list>
-  <button full type="submit">SUBMIT</button>
+  <button full (click)="submit()">SUBMIT</button>
   <br />
   <div>Already have an account? <a (click)="goBack()">Sign In</a></div>
 </ion-content>
