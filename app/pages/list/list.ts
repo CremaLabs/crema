@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController} from 'ionic-angular';
 import { ShopService } from '../../providers/shops/shops.service';
 
 /*
@@ -16,18 +16,8 @@ import { ShopService } from '../../providers/shops/shops.service';
 export class ListPage {
   shops: any[];
 
-  constructor(private nav: NavController, private navParams: NavParams, private shopService: ShopService) {
-    // console.log(this.navParams.get('shops')[0]);
-    // this.navParams = this.navParams.get('shops');
-    // this.shops = this.navParams.get('shops');
-
-    // works
-    // this.shops = shopService.getShops();
-
-    this.shops = navParams.get('shops');
-    console.log(this.shops);
-
-
+  constructor(private nav: NavController, private shopService: ShopService) {
+    this.shops = shopService.getShops();
   }
 
   //get the cafe data which is stored in params
