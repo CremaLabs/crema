@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { Http, Response } from '@angular/http';
+import 'rxjs/add/operator/toPromise'; 
 
 import { User } from '../user/user.model';
 
@@ -16,23 +16,34 @@ export class AuthService {
   constructor(private http: Http) {
   }
 
+  private extractData(res: Response) {
+    let body = res.json();
+    return body.data || {};
+  }
+
   login(user: User) {
-    // TODO: Implement real login
     console.log('Login: ', user);
-    const fakeUserData = {fullName: 'Fake User', username: 'fakeuser', id: 1};
-    return Promise.resolve(fakeUserData);
+    return this.http.post('v1/auth/login', user)
+      .toPromise()
+      .then(this.extractData)
+      .catch(err => console.error(err));
   }
 
   signup(user: User) {
-    // TODO: Implement real signup
-    console.log('Sign up: ', user);
-    const fakeUserData = {fullName: 'Fake User', username: 'fakeuser', id: 1};
-    return Promise.resolve(fakeUserData);
+    console.log('Signup: ', user);
+    return this.http.post('v1/auth/signup', user)
+      .toPromise()
+      .then(this.extractData)
+      .catch(err => console.error(err));
+
   }
 
   logout() {
-    // TODO: Implement real logout
-    return Promise.resolve();
+    return this.http.post('v1/auth/logout', {})
+      .toPromise()
+      .then(this.extractData)
+      .catch(err => console.error(err));
   }
-
 }
+
+
