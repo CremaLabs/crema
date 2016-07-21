@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { ShopService } from '../../providers/shops/shops.service';
 
 /*
   Generated class for the ListPage page.
@@ -9,12 +10,23 @@ import { NavController, NavParams } from 'ionic-angular';
 */
 @Component({
   templateUrl: 'build/pages/list/list.html',
+  providers: [ShopService]
 })
-export class ListPage {
 
-  constructor(private nav: NavController, private navParams: NavParams) {
-    console.log(this.navParams.get('shops')[0]);
-    this.navParams = this.navParams.get('shops');
+export class ListPage {
+  shops: any[];
+
+  constructor(private nav: NavController, private navParams: NavParams, private shopService: ShopService) {
+    // console.log(this.navParams.get('shops')[0]);
+    // this.navParams = this.navParams.get('shops');
+    // this.shops = this.navParams.get('shops');
+
+    // works
+    // this.shops = shopService.getShops();
+
+    this.shops = navParams.get('shops');
+    console.log(this.shops);
+
 
   }
 
