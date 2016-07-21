@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Geolocation, GoogleMap, GoogleMapsEvent, GoogleMapsLatLng } from 'ionic-native';
 
 import { ListPage } from '../list/list';
 
@@ -14,8 +15,28 @@ import { ListPage } from '../list/list';
 })
 export class MapPage {
 
-  constructor(private nav: NavController) {
+  map: GoogleMap;
+  currentLocation: GoogleMapsLatLng;
 
+  constructor(private nav: NavController) {
+    GoogleMap.isAvailable().then(() => this.initMapAtCurrentPosition());
+  }
+
+  initMapAtCurrentPosition() {
+    this.map = new GoogleMap('map-canvas');
+    this.map.setBackgroundColor('white');
+    this.map.setZoom(15);
+    this.map.setClickable(true);
+    // this.map.setAllGesturesEnabled(true);
+    this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
+      console.log('Map ready!');
+      Geolocation.getCurrentPosition().then(data => {
+        this.currentLocation = new GoogleMapsLatLng(data.coords.latitude, data.coords.longitude);
+        console.log('data', JSON.stringify(data));
+        console.log('Current Location', this.currentLocation);
+        this.map.setCenter(this.currentLocation);
+      });
+    });
   }
 
   goToListPage() {

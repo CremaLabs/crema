@@ -17,7 +17,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = SigninPage;
-  pages: Array<{title: string, component: any}>
+  pages: Array<{title: string, component: any}>;
 
   constructor(
     private platform: Platform,
