@@ -1,3 +1,14 @@
 .map {
 
 }
+
+#map-canvas {
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+}
+
+.nav-decor {
+  // background-color: transparent !important;
+  display: none !important;
+}

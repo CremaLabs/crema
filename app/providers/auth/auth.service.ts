@@ -23,26 +23,34 @@ export class AuthService {
 
   login(user: User) {
     console.log('Login: ', user);
-    return this.http.post('v1/auth/login', user)
+    return this.http.post('http://localhost:3000/v1/auth/login', user)
       .toPromise()
       .then(this.extractData)
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        return Promise.reject('Login failed');
+      });
   }
 
   signup(user: User) {
     console.log('Signup: ', user);
-    return this.http.post('v1/auth/signup', user)
+    return this.http.post('http://localhost:3000/v1/auth/signup', user)
       .toPromise()
       .then(this.extractData)
-      .catch(err => console.error(err));
-
+      .catch(err => {
+        console.error(err);
+        return Promise.reject('Signup failed');
+      });
   }
 
   logout() {
-    return this.http.post('v1/auth/logout', {})
+    return this.http.post('http://localhost:3000/v1/auth/logout', {})
       .toPromise()
       .then(this.extractData)
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        return Promise.reject('Logout failed');
+      });
   }
 }
 
