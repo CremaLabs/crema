@@ -7,12 +7,12 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h1>Map page...</h1>
+<ion-content>
+  <div id="map-canvas">
+    <ion-toolbar position="bottom" style="position:absolute; bottom:0">
+      <ion-title>
+        <button clear (click)="goToListPage()">Show List</button>
+      </ion-title>
+    </ion-toolbar>
+  </div>
 </ion-content>
-
-<ion-toolbar position="bottom" style="position:absolute; bottom:0">
-  <ion-title>
-    <button clear (click)="goToListPage()">Show List</button>
-  </ion-title>
-</ion-toolbar>
