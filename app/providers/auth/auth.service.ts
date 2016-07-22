@@ -43,7 +43,7 @@ export class AuthService {
 
   login(user: User) {
     console.log('Login: ', user);
-    return this.http.post('http://localhost:8100/v1/auth/login', user)
+    return this.http.post('http://localhost:3000/v1/auth/login', user)
       .toPromise()
       .then(res => {
         const resData = this.extractData(res);
@@ -58,7 +58,7 @@ export class AuthService {
 
   signup(user: User) {
     console.log('Signup: ', user);
-    return this.http.post('http://localhost:8100/v1/auth/signup', user)
+    return this.http.post('http://localhost:3000/v1/auth/signup', user)
       .toPromise()
       .then(res => {
         const resData = this.extractData(res);
