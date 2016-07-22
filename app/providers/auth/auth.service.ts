@@ -23,7 +23,7 @@ export class AuthService {
 
   login(user: User) {
     console.log('Login: ', user);
-    return this.http.post('http://localhost:3000/v1/auth/login', user)
+    return this.http.post('http://localhost:8100/v1/auth/login', user)
       .toPromise()
       .then(this.extractData)
       .catch(err => {
@@ -34,7 +34,7 @@ export class AuthService {
 
   signup(user: User) {
     console.log('Signup: ', user);
-    return this.http.post('http://localhost:3000/v1/auth/signup', user)
+    return this.http.post('http://localhost:8100/v1/auth/signup', user)
       .toPromise()
       .then(this.extractData)
       .catch(err => {
@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post('http://localhost:3000/v1/auth/logout', {})
+    return this.http.post('http://localhost:8100/v1/auth/logout', {})
       .toPromise()
       .then(this.extractData)
       .catch(err => {
