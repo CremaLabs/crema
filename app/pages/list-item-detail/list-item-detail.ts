@@ -16,7 +16,6 @@ import { NavController, NavParams } from 'ionic-angular';
 export class ListItemDetailPage {
   constructor(private nav: NavController, private shop: Shop, private params: NavParams) {
     this.shop = this.params.get('shop');
-    console.log('value of shop: ', shop);
   }
 }
 
