@@ -14,7 +14,6 @@ export class MapPage {
   map: GoogleMap;
 
   currentLocation: GoogleMapsLatLng;
-  currentCamPosition;
   currentMarker;
   defaultMapPosition: GoogleMapsLatLng = new GoogleMapsLatLng(37.7441799, -122.4849872); // SF Coordinates
 
@@ -52,7 +51,7 @@ export class MapPage {
     this.map.setBackgroundColor('white');
     this.map.setZoom(15);
     this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
-      this.addCurrentLocationMarker();
+      this.addCurrentLocationMarker(true);
       this.displayShopsAtCurrentPosition();
     });
     this.map.on(GoogleMapsEvent.CAMERA_CHANGE).subscribe(pos => {
@@ -68,12 +67,13 @@ export class MapPage {
     });
   }
 
-  addCurrentLocationMarker() {
+  addCurrentLocationMarker(focusCamera?: boolean) {
     Geolocation.getCurrentPosition()
       .then(data => {
         this.currentLocation = new GoogleMapsLatLng(data.coords.latitude, data.coords.longitude);
-        this.map.setCenter(this.currentLocation);
-        this.map.getCameraPosition().then(pos => this.currentCamPosition = pos);
+        if (focusCamera) {
+          this.map.setCenter(this.currentLocation);
+        }
         this.map.addMarker({
           icon: 'black',
           position: this.currentLocation,
@@ -112,6 +112,25 @@ export class MapPage {
 
   goToListPage() {
     this.nav.push(ListPage);
+  }
+
+  search() {
+    this.shop.getShops(this.searchInput)
+      .then(shops => {
+        this.map.clear();
+        this.addCurrentLocationMarker(false);
+        this.shops = shops;
+        this.addMarkersForShops(shops);
+        this.showSubmitBtn = false;
+      });
+  }
+
+  focusCurrentLocation() {
+    this.map.animateCamera({
+      target: this.currentLocation,
+      zoom: 15,
+      duration: 2500
+    });
   }
 
   private getMarkerColor(score: number) {

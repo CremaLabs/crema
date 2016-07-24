@@ -29,3 +29,21 @@
 .search-btn {
   margin: 0;
 }
+
+.cafe {
+  padding: 8px;
+  &.cafe--selected {
+    position: absolute;
+    bottom: 44px;
+  }
+}
+.cafe__info {
+
+}
+.cafe__rating {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 36px;
+}
