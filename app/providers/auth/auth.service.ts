@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import 'rxjs/add/operator/toPromise'; 
+import 'rxjs/add/operator/toPromise';
 
+import { URL } from '../../constants';
 import { User } from '../user/user.model';
 
-/*
-  Generated class for the Auth provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class AuthService {
 
@@ -23,35 +19,33 @@ export class AuthService {
 
   login(user: User) {
     console.log('Login: ', user);
-    return this.http.post('http://localhost:3000/v1/auth/login', user)
+    return this.http.post(URL.CREMA_API + '/auth/login', user)
       .toPromise()
       .then(this.extractData)
       .catch(err => {
-        console.error(err);
+        console.error('Login error: ', JSON.stringify(err));
         return Promise.reject('Login failed');
       });
   }
 
   signup(user: User) {
     console.log('Signup: ', user);
-    return this.http.post('http://localhost:3000/v1/auth/signup', user)
+    return this.http.post(URL.CREMA_API + '/auth/signup', user)
       .toPromise()
       .then(this.extractData)
       .catch(err => {
-        console.error(err);
+        console.error('Signup error: ', JSON.stringify(err));
         return Promise.reject('Signup failed');
       });
   }
 
   logout() {
-    return this.http.post('http://localhost:3000/v1/auth/logout', {})
+    return this.http.post(URL.CREMA_API + '/auth/logout', {})
       .toPromise()
       .then(this.extractData)
       .catch(err => {
-        console.error(err);
+        console.error('Logout error: ', JSON.stringify(err));
         return Promise.reject('Logout failed');
       });
   }
 }
-
-

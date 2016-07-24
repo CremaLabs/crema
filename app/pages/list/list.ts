@@ -18,8 +18,9 @@ export class ListPage {
   shops: any[];
 
   constructor(private nav: NavController, private shopService: ShopService) {
-    this.shops = shopService.getShops();
-    console.log(this.shops);
+    // shopService.getShops()
+    //   .then(shops = this.shops = shops);
+    // console.log(this.shops);
   }
 
   getListItemDetails(shop) {

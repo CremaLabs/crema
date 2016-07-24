@@ -9,10 +9,41 @@
 
 <ion-content>
   <div id="map-canvas">
+
+    <!-- Search Box -->
+    <ion-card class="searchbox">
+      <form (submit)="search()">
+        <ion-icon name="pin"></ion-icon>
+        <ion-input type="text" placeholder="Search location..." [(ngModel)]="searchInput"></ion-input>
+      </form>
+    </ion-card>
+    <ion-card *ngIf="showSubmitBtn">
+      <button class="search-btn" full (click)="search()">Search current map view</button>
+    </ion-card>
+
+    <ion-card class="cafe cafe--selected" *ngIf="selectedShop">
+      <ion-item>
+        <div class="cafe__info" item-left>
+          <h2>{{selectedShop.name}}</h2>
+          <p>{{selectedShop.vicinity}}</p>
+        </div>
+        <div class="cafe__rating" item-right>
+          <ion-icon name="happy"></ion-icon>
+          <p>Roomy</p>
+        </div>
+      </ion-item>
+    </ion-card>
+
+    <!-- Bottom Toolbar -->
     <ion-toolbar position="bottom" style="position:absolute; bottom:0">
       <ion-title>
         <button clear (click)="goToListPage()">Show List</button>
       </ion-title>
+      <ion-buttons end>
+        <button (click)="focusCurrentLocation()">
+          <ion-icon name="navigate"></ion-icon>
+        </button>
+      </ion-buttons>
     </ion-toolbar>
   </div>
 </ion-content>
