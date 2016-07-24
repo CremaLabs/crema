@@ -9,11 +9,12 @@ import { LogoutPage } from './pages/logout/logout';
 
 
 import {AuthService} from './providers/auth/auth.service';
+import {ShopService} from './providers/shops/shops.service';
 
 
 @Component({
   templateUrl: 'build/app.html',
-  providers: [ AuthService ]
+  providers: [ AuthService, ShopService ]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
