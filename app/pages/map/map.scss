@@ -9,6 +9,23 @@
 }
 
 .nav-decor {
-  // background-color: transparent !important;
   display: none !important;
+}
+
+.searchbox {
+  // margin-top: 5px;
+  form {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+  }
+  ion-icon {
+    padding: 10px;
+    margin-right: 10px;
+  }
+  ion-input { flex: 1; }
+}
+
+.search-btn {
+  margin: 0;
 }

@@ -9,6 +9,20 @@
 
 <ion-content>
   <div id="map-canvas">
+
+    <!-- Search Box -->
+    <ion-card class="searchbox">
+      <form (submit)="search()">
+        <ion-icon name="pin"></ion-icon>
+        <ion-input type="text" placeholder="Search location..." [(ngModel)]="searchInput"></ion-input>
+      </form>
+    </ion-card>
+    <ion-card *ngIf="showSubmitBtn">
+      <button class="search-btn" full (click)="search()">Search current map view</button>
+    </ion-card>
+
+
+    <!-- Bottom Toolbar -->
     <ion-toolbar position="bottom" style="position:absolute; bottom:0">
       <ion-title>
         <button clear (click)="goToListPage()">Show List</button>

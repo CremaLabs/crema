@@ -7,11 +7,12 @@ import { UserSettingsPage } from './pages/user-settings/user-settings';
 import {SigninPage} from './pages/signin/signin';
 
 import {AuthService} from './providers/auth/auth.service';
+import {ShopService} from './providers/shops/shops.service';
 
 
 @Component({
   templateUrl: 'build/app.html',
-  providers: [ AuthService ]
+  providers: [ AuthService, ShopService ]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
