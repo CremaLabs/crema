@@ -4,7 +4,9 @@ import {StatusBar} from 'ionic-native';
 
 import { MapPage } from './pages/map/map';
 import { UserSettingsPage } from './pages/user-settings/user-settings';
-import {SigninPage} from './pages/signin/signin';
+import { SigninPage } from './pages/signin/signin';
+import { LogoutPage } from './pages/logout/logout';
+
 
 import {AuthService} from './providers/auth/auth.service';
 
@@ -30,7 +32,8 @@ export class MyApp {
     });
     this.pages = [
       { title: 'Home', component: MapPage },
-      { title: 'User Settings', component: UserSettingsPage }
+      { title: 'User Settings', component: UserSettingsPage },
+      { title: 'Logout', component: LogoutPage }
     ];
   }
 
