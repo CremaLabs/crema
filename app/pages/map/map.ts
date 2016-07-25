@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Modal } from 'ionic-angular';
 import { Geolocation, GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, GoogleMapsLatLngBounds } from 'ionic-native';
 
 import { ShopService } from '../../providers/shops/shops.service';
 import { ListPage } from '../list/list';
+import { CafeModal } from '../cafe-modal/cafe-modal';
 
 
 @Component({
@@ -111,7 +112,7 @@ export class MapPage {
   }
 
   goToListPage() {
-    this.nav.push(ListPage);
+    this.nav.push(ListPage, { shops: this.shops });
   }
 
   search() {
@@ -131,15 +132,20 @@ export class MapPage {
       zoom: 15,
       duration: 2500
     });
+    this.displayShopsAtCurrentPosition();
   }
 
-  private getMarkerColor(score: number) {
-    if (!score) { return; }
+  getMarkerColor(score: number) {
+    if (!score) { return 'grey'; }
     score = Math.floor(score);
-    if (score === 0) { return 'green'; }
-    if (score === 1) { return 'lightgreen'; }
-    if (score === 2) { return 'yellow'; }
-    if (score > 3) { return 'lightgrey'; }
+    if (score === 0) { return 'green'; }  // Roomy
+    if (score === 1) { return 'green'; } //  Roomy
+    if (score > 2) { return 'red'; } // Full
+  }
+
+  openShopModal() {
+    let modal = Modal.create(CafeModal, { shop: this.selectedShop });
+    this.nav.present(modal);
   }
 
 }
