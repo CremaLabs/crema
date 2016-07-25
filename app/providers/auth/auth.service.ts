@@ -41,6 +41,7 @@ export class AuthService {
   //     });
   }
 
+// add to this function: save token to local storage: 'local-storage""'
   login(user: User) {
     console.log('Login: ', user);
     return this.http.post('http://localhost:3000/v1/auth/login', user)
@@ -56,6 +57,7 @@ export class AuthService {
       });
   }
 
+// add to this function: save token to local storage: 'local-storage""'
   signup(user: User) {
     console.log('Signup: ', user);
     return this.http.post('http://localhost:3000/v1/auth/signup', user)
