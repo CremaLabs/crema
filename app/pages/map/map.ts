@@ -114,7 +114,7 @@ export class MapPage {
           this.map.setCenter(this.currentLocation);
         }
         this.map.addMarker({
-          icon: 'black',
+          icon: 'blue',
           position: this.currentLocation,
           title: 'Current Location'
         }).then(marker => this.currentMarker = marker);
