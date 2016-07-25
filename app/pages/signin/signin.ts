@@ -27,7 +27,7 @@ export class SigninPage {
   ) {}
 
   ngOnInit() {
-    this.loading = Loading.create({ 
+    this.loading = Loading.create({
       spinner: 'ios',
       content: 'Configuring smoke and mirrors'
     });
