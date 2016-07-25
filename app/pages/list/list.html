@@ -8,14 +8,18 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="list" padding>
   <ion-list>
-    <ion-item *ngFor="let shop of shops" (click)="getListItemDetails(shop)">
-      <span>{{shop.name}}</span>
-      <span *ngIf="shop.openNow">Open</span>
-      <span *ngIf="!shop.openNow">Closed</span>
-      <span>{{shop.metrics}} </span>
-      <div>{{shop.address}}</div>
+    <ion-item class="cafe" *ngFor="let shop of shops" (click)="openShopModal(shop)">
+      <div class="cafe__info" >
+        <h2>{{shop.name}}</h2>
+        <p>{{shop.vicinity}}</p>
+      </div>
+      <div class="cafe__rating">
+        <ion-icon name="happy" class="happy" *ngIf="shop.metrics.rating < 2"></ion-icon>
+        <ion-icon name="sad" class="sad" *ngIf="shop.metrics.rating >= 2"></ion-icon>
+        <p>{{shop.metrics.rating < 2 ? 'Roomy' : 'Packed'}}</p>
+      </div>
     </ion-item>
   </ion-list>
 

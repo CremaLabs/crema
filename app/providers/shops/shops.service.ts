@@ -32,4 +32,8 @@ export class ShopService {
         return [];
       });
   }
+
+  submitRating(rating: number, placeId: string) {
+    return Promise.resolve(); // TODO: complete this
+  }
 }
