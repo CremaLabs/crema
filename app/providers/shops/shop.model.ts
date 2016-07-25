@@ -1,10 +1,9 @@
 export class Shop {
   name: string;
-  lat: number;
-  lng: number;
-  openNow: boolean;
-  address: string;
-  details: any;
-  photo: string;
-  metrics: number;
+  geometry: Object;
+  metrics: Object;
+  opening_hours: Object;
+  photos: [Object];
+  place_id: string;
+  vicinity: string;
 }

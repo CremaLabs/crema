@@ -19,6 +19,17 @@ export class ShopService {
     this.local = new Storage(LocalStorage);
   }
 
+  /***** PUBLIC *****/
+
+
+  /**
+   * getShops - Query coffee shops near provided location coordinates
+   *
+   * @param  {String} location in comma-separated lat-long format ("lat,lng")
+   *          - ex. "37.7749,-122.4194"
+   *          - if location NOT provided, will return the cached shops data
+   * @return Promise<[Shop]> promise that resolves with array of Shop data
+   */
   getShops(location?: string) {
     if (!location && this.shops) { return Promise.resolve(this.shops); }
 
@@ -38,6 +49,14 @@ export class ShopService {
       });
   }
 
+
+  /**
+   * submitRating - submit availability rating for a coffee shop
+   *
+   * @param  {Number} rating number from 1 (EMPTY) - 4 (PACKED)
+   * @param  {String} placeId Google's PlaceID
+   * @return Promise that resolves on success and rejects on failure
+   */
   submitRating(rating: number, placeId: string) {
     return this.getHeadersWithAuth()
       .then(headers => {
@@ -51,11 +70,25 @@ export class ShopService {
       })
   }
 
+
+  /**
+   * getOpenNow - return string 'Yes' or 'No' if the shop if current open
+   *
+   * @param  {Shop} shop
+   * @return {String} 'Yes'/'No'
+   */
   getOpenNow(shop) {
     if (!shop || !shop.opening_hours || shop.opening_hours.open_now === undefined) { return 'N/A'; }
     return shop.opening_hours.open_now ? 'Yes' : 'No';
   }
 
+
+  /**
+   * getPriceLevel - return dollar signs for the shop's price level
+   *
+   * @param  {Shop} shop
+   * @return {String} '$'/'$$'/'$$$'/'$$$$'
+   */
   getPriceLevel(shop) {
     let dollars = '';
     for (let i = 0; i < shop.price_level; i++) {
@@ -64,6 +97,13 @@ export class ShopService {
     return dollars;
   }
 
+
+  /**
+   * getRoominess - return string 'Roomy', 'Packed', or 'N/A' depending on shop's rating
+   *
+   * @param  {Shop} shop
+   * @return {String} 'Roomy', 'Packed', or 'N/A'
+   */
   getRoominess(shop) {
     if (!shop.metrics || shop.metrics.rating === undefined) { return 'N/A'; }
     const rating = shop.metrics.rating;
@@ -74,6 +114,7 @@ export class ShopService {
     }
   }
 
+  /* Return a Promise that resolves with Headers with Authorization header */
   private getHeadersWithAuth() {
     return this.local.get('jwt')
       .then(token => {
