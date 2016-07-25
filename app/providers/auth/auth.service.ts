@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Storage, LocalStorage } from 'ionic-angular';
-import 'rxjs/add/operator/toPromise'; 
 
+import { Storage, LocalStorage } from 'ionic-angular';
+import 'rxjs/add/operator/toPromise';
+
+import { URL } from '../../constants';
 import { User } from '../user/user.model';
 
-/*
-  Generated class for the Auth provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class AuthService {
   local: Storage;
@@ -36,7 +33,7 @@ export class AuthService {
   //           .then(res => {
 
   //           });
-          
+
   //       }
   //     });
   }
@@ -44,7 +41,7 @@ export class AuthService {
 // add to this function: save token to local storage: 'local-storage""'
   login(user: User) {
     console.log('Login: ', user);
-    return this.http.post('http://localhost:3000/v1/auth/login', user)
+    return this.http.post(URL.CREMA_API + '/auth/login', user)
       .toPromise()
       .then(res => {
         const resData = this.extractData(res);
@@ -52,7 +49,7 @@ export class AuthService {
         return this.local.set('jwt', resData.token);
       })
       .catch(err => {
-        console.error(err);
+        console.error('Login error: ', JSON.stringify(err));
         return Promise.reject('Login failed');
       });
   }
@@ -60,7 +57,7 @@ export class AuthService {
 // add to this function: save token to local storage: 'local-storage""'
   signup(user: User) {
     console.log('Signup: ', user);
-    return this.http.post('http://localhost:3000/v1/auth/signup', user)
+    return this.http.post(URL.CREMA_API + '/auth/signup', user)
       .toPromise()
       .then(res => {
         const resData = this.extractData(res);
@@ -68,7 +65,7 @@ export class AuthService {
         return this.local.set('jwt', resData.token);
       })
       .catch(err => {
-        console.error(err);
+        console.error('Signup error: ', JSON.stringify(err));
         return Promise.reject('Signup failed');
       });
   }
@@ -80,5 +77,3 @@ export class AuthService {
       });
   }
 }
-
-

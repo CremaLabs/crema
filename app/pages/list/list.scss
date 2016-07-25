@@ -1,3 +1,41 @@
 .list {
 
+  ion-list {
+    width: 100%;
+  }
+
+  .cafe {
+    width: 100%;
+    padding: 12px 8px;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    ion-label {
+      display: flex !important;
+      flex-flow: row nowrap;
+    }
+  }
+  .cafe__info {
+    padding-right: 30px;
+    flex: 1;
+
+    h2 { color: brown; }
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .cafe__rating {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 36px;
+
+    ion-icon {
+      &.happy { color: rgba(0,0,0,.8); }
+      &.sad { color: rgba(0,0,0,.4); }
+    }
+  }
+
 }

@@ -7,12 +7,47 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="map">
   <div id="map-canvas">
+    <!-- Invisible top padding -->
+    <!-- Note: This is workaround for Native GoogleMap issue where you cannot add top padding -->
+    <div class="invisible-padding"></div>
+
+    <!-- Search Box -->
+    <ion-card class="searchbox">
+      <form (submit)="search()">
+        <ion-icon name="pin"></ion-icon>
+        <ion-input type="text" placeholder="Search location..." [(ngModel)]="searchInput"></ion-input>
+      </form>
+    </ion-card>
+    <ion-card *ngIf="showSubmitBtn">
+      <button class="search-btn" full (click)="search()">Search current map view</button>
+    </ion-card>
+
+    <ion-card class="cafe cafe--selected" *ngIf="selectedShop" (click)="openShopModal()">
+      <ion-item>
+        <div class="cafe__info" item-left>
+          <h2>{{selectedShop.name}}</h2>
+          <p>{{selectedShop.vicinity}}</p>
+        </div>
+        <div class="cafe__rating" item-right>
+          <ion-icon name="happy" *ngIf="getRoominess(selectedShop) === 'Roomy'"></ion-icon>
+          <ion-icon name="sad" *ngIf="getRoominess(selectedShop) === 'Packed'"></ion-icon>
+          <p>{{ getRoominess(selectedShop) }}</p>
+        </div>
+      </ion-item>
+    </ion-card>
+
+    <!-- Bottom Toolbar -->
     <ion-toolbar position="bottom" style="position:absolute; bottom:0">
       <ion-title>
         <button clear (click)="goToListPage()">Show List</button>
       </ion-title>
+      <ion-buttons end>
+        <button (click)="focusCurrentLocation()">
+          <ion-icon name="navigate"></ion-icon>
+        </button>
+      </ion-buttons>
     </ion-toolbar>
   </div>
 </ion-content>

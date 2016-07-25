@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button clear (click)="close()">
+        <span primary showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Cafe</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list no-lines>
+
+    <!-- Info Header -->
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="images/cafe_marker.svg" alt="cafe logo">
+      </ion-avatar>
+      <h2>{{shop.name}}</h2>
+      <p>{{shop.vicinity}}</p>
+    </ion-item>
+
+    <!-- Info Section -->
+    <ion-list-header>Info</ion-list-header>
+    <ion-item>
+      <ion-icon name="time" item-left></ion-icon>
+      Open now
+      <ion-note item-right>{{ getOpenNow() }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="happy" item-left *ngIf="getRoominess() === 'Roomy'"></ion-icon>
+      <ion-icon name="sad" item-left *ngIf="getRoominess() === 'Packed'"></ion-icon>
+      Has room
+      <ion-note item-right>{{ getRoominess() }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="cash" item-left></ion-icon>
+      Price
+      <ion-note item-right>{{ getPriceLevel() }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="people" item-left></ion-icon>
+      User Rating
+      <ion-note item-right>{{ shop.rating }}</ion-note>
+    </ion-item>
+
+    <!-- Submit Data Section -->
+    <div class="report" *ngIf="!reported">
+      <div class="report__header">How is the cafe's seating situation?</div>
+      <div class="report-metrics">
+        <div class="report__has-room">
+          <button block primary (click)="submitRating(1)">
+            <ion-icon name="happy"></ion-icon>
+            Roomy
+          </button>
+        </div>
+        <div class="report__no-room">
+          <button block primary (click)="submitRating(4)">
+            <ion-icon name="sad"></ion-icon>
+            Packed
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="report report--success" *ngIf="reported">
+      <div class="report__header">Thank you for reporting!</div>
+      <ion-icon name="thumbs-up"></ion-icon>
+    </div>
+
+  </ion-list>
+</ion-content>
