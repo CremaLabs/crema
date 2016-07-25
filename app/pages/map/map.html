@@ -7,8 +7,11 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="map">
   <div id="map-canvas">
+    <!-- Invisible top padding -->
+    <!-- Note: This is workaround for Native GoogleMap issue where you cannot add top padding -->
+    <div class="invisible-padding"></div>
 
     <!-- Search Box -->
     <ion-card class="searchbox">
@@ -21,15 +24,16 @@
       <button class="search-btn" full (click)="search()">Search current map view</button>
     </ion-card>
 
-    <ion-card class="cafe cafe--selected" *ngIf="selectedShop">
+    <ion-card class="cafe cafe--selected" *ngIf="selectedShop" (click)="openShopModal()">
       <ion-item>
         <div class="cafe__info" item-left>
           <h2>{{selectedShop.name}}</h2>
           <p>{{selectedShop.vicinity}}</p>
         </div>
         <div class="cafe__rating" item-right>
-          <ion-icon name="happy"></ion-icon>
-          <p>Roomy</p>
+          <ion-icon name="happy" *ngIf="selectedShop.metrics.rating < 2"></ion-icon>
+          <ion-icon name="sad" *ngIf="selectedShop.metrics.rating >= 2"></ion-icon>
+          <p>{{selectedShop.metrics.rating < 2 ? 'Roomy' : 'Packed'}}</p>
         </div>
       </ion-item>
     </ion-card>
