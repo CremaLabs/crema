@@ -11,7 +11,7 @@ import { MapPage } from '../map/map';
 @Component({
   templateUrl: 'build/pages/signin/signin.html',
 })
-export class SigninPage {
+export class SigninPage implements OnInit {
 
   user: User = new User();
   loading: Loading;
