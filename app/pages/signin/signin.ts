@@ -24,6 +24,13 @@ export class SigninPage {
     private nav: NavController,
     private auth: AuthService
   ) {
+    
+    //start loading (presentLoading"")
+    // Attempt get current user.
+      // if successful,
+        //call go to main page
+      // if 401,
+        //end loading
 
   }
 
