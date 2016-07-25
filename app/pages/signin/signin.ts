@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { NavController, Loading } from 'ionic-angular';
 
 import { User } from '../../providers/user/user.model';
 import { AuthService } from '../../providers/auth/auth.service';
@@ -19,19 +19,31 @@ import { MapPage } from '../map/map';
 export class SigninPage {
 
   user: User = new User();
+  loading: Loading;
 
   constructor(
     private nav: NavController,
     private auth: AuthService
-  ) {
-    
-    //start loading (presentLoading"")
-    // Attempt get current user.
-      // if successful,
-        //call go to main page
-      // if 401,
-        //end loading
+  ) {}
 
+  ngOnInit() {
+    this.loading = Loading.create({ 
+      spinner: 'ios',
+      content: 'Configuring smoke and mirrors'
+    });
+
+    this.nav.present(this.loading)
+      .then(() => {
+        if (this.auth.checkToken()) {
+          this.loading.dismiss();
+          this.goToMainPage();
+        } else {
+          this.loading.dismiss();
+        }
+      })
+      .catch(err => {
+        this.loading.dismiss();
+      });
   }
 
   goToSignupPage() {
