@@ -34,11 +34,23 @@ export class MyApp {
     ];
   }
 
+  /***** PUBLIC *****/
+
+
+  /**
+   * openPage - open a page and closes the side menu
+   *
+   * @param  {Component} page to open
+   */
   openPage(page) {
     this.menu.close();
     this.nav.setRoot(page.component);
   }
 
+
+  /**
+   * logout - log out and redirect to log-in page      
+   */
   logout() {
     this.auth.logout()
       .then(() => {

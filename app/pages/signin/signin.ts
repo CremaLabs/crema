@@ -21,6 +21,33 @@ export class SigninPage implements OnInit {
     private auth: AuthService
   ) {}
 
+  /***** PUBLIC *****/
+
+  /**
+   * goToSignupPage - navigate to Signup Page
+   */
+  goToSignupPage() {
+    this.nav.push(SignupPage);
+  }
+
+  /**
+   * goToMainPage - navigate to Main (Map) Page
+   */
+  goToMainPage() {
+    this.nav.setRoot(MapPage);
+  }
+
+  /**
+   * submit - log in and navigate to Main Page on success
+   */
+  submit() {
+    this.auth.login(this.user)
+      .then(() => this.goToMainPage());
+  }
+
+  /***** Life Cycle Hooks *****/
+
+  /* Show loading indicator and attempts to validate stored token, if any */
   ngOnInit() {
     this.loading = Loading.create({
       spinner: 'ios',
@@ -36,19 +63,6 @@ export class SigninPage implements OnInit {
       .catch(err => {
         this.loading.dismiss();
       });
-  }
-
-  goToSignupPage() {
-    this.nav.push(SignupPage);
-  }
-
-  goToMainPage() {
-    this.nav.setRoot(MapPage);
-  }
-
-  submit() {
-    this.auth.login(this.user)
-      .then(() => this.goToMainPage());
   }
 
 }

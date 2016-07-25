@@ -21,7 +21,7 @@ export class AuthService {
   /**
    * checkToken - validate token stored in the LocalStorage
    *
-   * @return Promise<any> that resolves if the token is valid, and rejects if token is invalid
+   * @return {Promise<any>} that resolves if the token is valid, and rejects if token is invalid
    */
   checkToken() {
     return this.local.get('jwt')
@@ -37,8 +37,8 @@ export class AuthService {
   /**
    * login - log user in and store JWT token in LocalStorage for later use
    *
-   * @param  User user credentials
-   * @return Promise<any> that resolves on login success and rejects on login error
+   * @param  {User} user credentials
+   * @return {Promise<any>} that resolves on login success and rejects on login error
    */
   login(user: User) {
     return this.http.post(URL.CREMA_API + '/auth/login', user)
@@ -57,8 +57,8 @@ export class AuthService {
   /**
    * signup - sign up user and store JWT token in LocalStorage
    *
-   * @param  User
-   * @return Promise<any> that resolves on sign-up success and rejects on failure
+   * @param  {User}
+   * @return {Promise<any>} that resolves on sign-up success and rejects on failure
    */
   signup(user: User) {
     return this.http.post(URL.CREMA_API + '/auth/signup', user)
@@ -77,7 +77,7 @@ export class AuthService {
   /**
    * logout - deletes the cached JWT token
    *
-   * @return Promise<void> that resolves when token is removed from cached
+   * @return {Promise<void>} that resolves when token is removed from cached
    */
   logout() {
     return this.local.remove('jwt');
