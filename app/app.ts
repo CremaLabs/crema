@@ -5,7 +5,6 @@ import {StatusBar} from 'ionic-native';
 import { MapPage } from './pages/map/map';
 import { SigninPage } from './pages/signin/signin';
 
-
 import {AuthService} from './providers/auth/auth.service';
 import {ShopService} from './providers/shops/shops.service';
 
