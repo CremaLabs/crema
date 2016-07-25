@@ -22,30 +22,18 @@ export class AuthService {
   }
 
   checkToken() {
-    return this.local.get('jwt');
-  //     .then(token => {
-  //       if (!token) {
-  //         return false;
-  //       }
-  //       if (token) {
-  //         return this.http.get('http://localhost:3000/v1/users/currentuser', token)
-  //           .toPromise()
-  //           .then(res => {
-
-  //           });
-
-  //       }
-  //     });
+    return this.local.get('jwt')
+      .then(token => {
+        return this.http.post(URL.CREMA_API + '/auth/checkToken', token).toPromise();
+      });
   }
 
 // add to this function: save token to local storage: 'local-storage""'
   login(user: User) {
-    console.log('Login: ', user);
     return this.http.post(URL.CREMA_API + '/auth/login', user)
       .toPromise()
       .then(res => {
         const resData = this.extractData(res);
-        console.log(resData);
         return this.local.set('jwt', resData.token);
       })
       .catch(err => {
@@ -56,12 +44,10 @@ export class AuthService {
 
 // add to this function: save token to local storage: 'local-storage""'
   signup(user: User) {
-    console.log('Signup: ', user);
     return this.http.post(URL.CREMA_API + '/auth/signup', user)
       .toPromise()
       .then(res => {
         const resData = this.extractData(res);
-        console.log(resData);
         return this.local.set('jwt', resData.token);
       })
       .catch(err => {
@@ -71,9 +57,6 @@ export class AuthService {
   }
 
   logout() {
-    return this.local.remove('jwt')
-      .then(() => {
-        //logout
-      });
+    return this.local.remove('jwt');
   }
 }
