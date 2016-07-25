@@ -22,14 +22,12 @@ export class ShopService {
   getShops(location?: string) {
     if (!location && this.shops) { return Promise.resolve(this.shops); }
 
-    const headers = this.getHeadersWithAuth();
-
-    return this.http.get(URL.CREMA_API + `/shops`, {
-      search: `location=${location}`,
-      headers
-    })
-      .map(res => res.json())
-      .toPromise()
+    return this.getHeadersWithAuth()
+      .then(headers => {
+        return this.http.get(URL.CREMA_API + `/shops`, { search: `location=${location}`, headers })
+          .map(res => res.json())
+          .toPromise();
+      })
       .then(data => {
         this.shops = data;
         return data;
@@ -41,11 +39,12 @@ export class ShopService {
   }
 
   submitRating(rating: number, placeId: string) {
-    const headers = this.getHeadersWithAuth();
-
-    return this.http.post(URL.CREMA_API + '/metrics', { rating, placeID: placeId }, { headers })
-      .map(res => res.json())
-      .toPromise()
+    return this.getHeadersWithAuth()
+      .then(headers => {
+        return this.http.post(URL.CREMA_API + '/metrics', { rating, placeID: placeId }, { headers })
+          .map(res => res.json())
+          .toPromise()
+      })
       .catch(err => {
         console.error('Error submitting rating: ', JSON.stringify(err));
         return Promise.reject('Error submitting rating');
@@ -75,11 +74,13 @@ export class ShopService {
     }
   }
 
-  private getHeadersWithAuth(): Headers {
-    const token = this.local.get('jwt');
-    const headers = new Headers();
-    headers.append('Authorization', `JWT ${token}`);
-
-    return headers;
+  private getHeadersWithAuth() {
+    return this.local.get('jwt')
+      .then(token => {
+        console.log('Auth Token: ', token);
+        const headers = new Headers();
+        headers.append('Authorization', `JWT ${token}`);
+        return headers;
+      });
   }
 }

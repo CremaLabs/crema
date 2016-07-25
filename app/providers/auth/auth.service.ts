@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 
 import { Storage, LocalStorage } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
@@ -24,7 +24,9 @@ export class AuthService {
   checkToken() {
     return this.local.get('jwt')
       .then(token => {
-        return this.http.post(URL.CREMA_API + '/auth/checkToken', token).toPromise();
+        let headers = new Headers();
+        headers.append('Authorization', `JWT ${token}`)
+        return this.http.get(URL.CREMA_API + '/auth/checkToken', { headers }).toPromise();
       });
   }
 

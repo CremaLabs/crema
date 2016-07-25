@@ -28,13 +28,10 @@ export class SigninPage {
     });
 
     this.nav.present(this.loading)
+      .then(() => this.auth.checkToken())
       .then(() => {
-        if (this.auth.checkToken()) {
-          this.loading.dismiss();
-          this.goToMainPage();
-        } else {
-          this.loading.dismiss();
-        }
+        this.loading.dismiss();
+        this.goToMainPage();
       })
       .catch(err => {
         this.loading.dismiss();
