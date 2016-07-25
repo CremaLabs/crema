@@ -16,9 +16,9 @@
         <p>{{shop.vicinity}}</p>
       </div>
       <div class="cafe__rating">
-        <ion-icon name="happy" class="happy" *ngIf="shop.metrics.rating < 2"></ion-icon>
-        <ion-icon name="sad" class="sad" *ngIf="shop.metrics.rating >= 2"></ion-icon>
-        <p>{{shop.metrics.rating < 2 ? 'Roomy' : 'Packed'}}</p>
+        <ion-icon name="happy" class="happy" *ngIf="getRoominess(shop) === 'Roomy'"></ion-icon>
+        <ion-icon name="sad" class="sad" *ngIf="getRoominess(shop) === 'PACKED'"></ion-icon>
+        <p>{{ getRoominess(shop) }}</p>
       </div>
     </ion-item>
   </ion-list>

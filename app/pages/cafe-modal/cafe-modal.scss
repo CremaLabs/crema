@@ -1,8 +1,32 @@
 .report {
+  margin-top: 36px;
   min-height: 150px;
   display: flex;
-  justify-content: space-around;
+  flex-flow: column nowrap;
+  justify-content: center;
   align-items: center;
+
+}
+.report--success {
+  .report__header {
+    margin-bottom: 16px;
+  }
+  ion-icon {
+    font-size: 36px;
+    color: lightgrey;
+  }
+}
+.report__header {
+  color: rgba(0,0,0,.8);
+  font-size: 18px;
+}
+.report-metrics {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > * { margin: 12px; }
 }
 .report__has-room,
 .report__no-room {

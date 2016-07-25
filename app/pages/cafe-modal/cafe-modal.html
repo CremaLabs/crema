@@ -47,20 +47,26 @@
     </ion-item>
 
     <!-- Submit Data Section -->
-    <ion-list-header>Report Data</ion-list-header>
-    <div class="report">
-      <div class="report__has-room">
-        <button block primary large (click)="submitRating(1)" [disabled]="reported">
-          <ion-icon name="happy"></ion-icon>
-          Roomy
-        </button>
+    <div class="report" *ngIf="!reported">
+      <div class="report__header">How is the cafe's seating situation?</div>
+      <div class="report-metrics">
+        <div class="report__has-room">
+          <button block primary (click)="submitRating(1)">
+            <ion-icon name="happy"></ion-icon>
+            Roomy
+          </button>
+        </div>
+        <div class="report__no-room">
+          <button block primary (click)="submitRating(4)">
+            <ion-icon name="sad"></ion-icon>
+            Packed
+          </button>
+        </div>
       </div>
-      <div class="report__no-room">
-        <button block primary large (click)="submitRating(4)" [disabled]="reported">
-          <ion-icon name="sad"></ion-icon>
-          Packed
-        </button>
-      </div>
+    </div>
+    <div class="report report--success" *ngIf="reported">
+      <div class="report__header">Thank you for reporting!</div>
+      <ion-icon name="thumbs-up"></ion-icon>
     </div>
 
   </ion-list>
