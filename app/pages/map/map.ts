@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Modal } from 'ionic-angular';
+import { NavController, Modal, Loading } from 'ionic-angular';
 import { Geolocation, GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, GoogleMapsLatLngBounds } from 'ionic-native';
 
 import { ShopService } from '../../providers/shops/shops.service';
@@ -27,7 +27,7 @@ export class MapPage {
 
   constructor(
     private nav: NavController,
-    private shop: ShopService
+    private shopService: ShopService
   ) {
     // Initialize Map
     GoogleMap.isAvailable()
@@ -43,12 +43,50 @@ export class MapPage {
     });
   }
 
-  initMapAtCurrentPosition() {
+  /***** PUBLIC *****/
+
+  search() {
+    let loader = Loading.create({content: 'Searching cafes...'});
+    this.nav.present(loader);
+    this.shopService.getShops(this.searchInput)
+      .then(shops => {
+        this.map.clear();
+        this.addCurrentLocationMarker(false);
+        this.shops = shops;
+        this.addMarkersForShops(shops);
+        this.showSubmitBtn = false;
+      })
+      .then(() => loader.dismiss());
+  }
+
+  focusCurrentLocation() {
+    this.map.animateCamera({
+      target: this.currentLocation,
+      zoom: 15,
+      duration: 2500
+    });
+    this.displayShopsAtCurrentPosition();
+  }
+
+  getMarkerColor(score: number) {
+    if (!score) { return 'grey'; }
+    score = Math.floor(score);
+    if (score <= 3) { return 'green'; } //  Roomy
+    if (score > 3) { return 'red'; } // Full
+  }
+
+  getRoominess(shop) { return this.shopService.getRoominess(shop); }
+
+  /***** PRIVATE *****/
+
+  private initMapAtCurrentPosition() {
     this.map = new GoogleMap('map-canvas', {
       'controls': { 'compass': true },
       'camera': { 'latLng': this.defaultMapPosition, 'bearing': 0 }
     });
     this.map.clear();
+    this.map.setVisible(true);
+    this.map.setClickable(true);
     this.map.setBackgroundColor('white');
     this.map.setZoom(15);
     this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
@@ -68,7 +106,7 @@ export class MapPage {
     });
   }
 
-  addCurrentLocationMarker(focusCamera?: boolean) {
+  private addCurrentLocationMarker(focusCamera?: boolean) {
     Geolocation.getCurrentPosition()
       .then(data => {
         this.currentLocation = new GoogleMapsLatLng(data.coords.latitude, data.coords.longitude);
@@ -84,21 +122,23 @@ export class MapPage {
       .catch(err => console.log('Error retrieving current location: ', JSON.stringify(err)));
   }
 
-  displayShopsAtCurrentPosition() {
+  private displayShopsAtCurrentPosition() {
+    let loader = Loading.create({content: 'Searching nearby cafes...'});
+    this.nav.present(loader);
     Geolocation.getCurrentPosition()
-      .then(data => this.shop.getShops(`${data.coords.latitude},${data.coords.longitude}`))
+      .then(data => this.shopService.getShops(`${data.coords.latitude},${data.coords.longitude}`))
       .then(shops => {
         this.shops = shops;
         this.addMarkersForShops(shops);
       })
-      .catch(err => console.log('Error retrieving current location: ', JSON.stringify(err)));
+      .catch(err => console.log('Error retrieving current location: ', JSON.stringify(err)))
+      .then(() => loader.dismiss());
   }
 
-  addMarkersForShops(shops) {
+  private addMarkersForShops(shops) {
     shops.forEach(shop => {
       let location = shop.geometry.location;
       let position = new GoogleMapsLatLng(location.lat, location.lng);
-      shop.metrics = shop.metrics || { rating: Math.random() * 5 }; // TODO: remove this line
       this.map.addMarker({
         position: position,
         title: shop.name,
@@ -111,41 +151,35 @@ export class MapPage {
     });
   }
 
+  /***** Page Navigations *****/
+
   goToListPage() {
     this.nav.push(ListPage, { shops: this.shops });
   }
 
-  search() {
-    this.shop.getShops(this.searchInput)
-      .then(shops => {
-        this.map.clear();
-        this.addCurrentLocationMarker(false);
-        this.shops = shops;
-        this.addMarkersForShops(shops);
-        this.showSubmitBtn = false;
-      });
-  }
-
-  focusCurrentLocation() {
-    this.map.animateCamera({
-      target: this.currentLocation,
-      zoom: 15,
-      duration: 2500
-    });
-    this.displayShopsAtCurrentPosition();
-  }
-
-  getMarkerColor(score: number) {
-    if (!score) { return 'grey'; }
-    score = Math.floor(score);
-    if (score === 0) { return 'green'; }  // Roomy
-    if (score === 1) { return 'green'; } //  Roomy
-    if (score > 2) { return 'red'; } // Full
-  }
-
   openShopModal() {
     let modal = Modal.create(CafeModal, { shop: this.selectedShop });
+    modal.onDismiss(() => {
+      this.search();
+      this.ionViewWillEnter();
+    })
     this.nav.present(modal);
+    this.ionViewWillLeave(); // Manual trigger - modal does not trigger view change life-cycle
   }
+
+  /***** Life-Cycle Events *****/
+
+  ionViewWillEnter() {
+    if (this.map) {
+      this.map.setVisible(true);
+      this.map.setClickable(true);
+    }
+  }
+
+  ionViewWillLeave() {
+    this.map.setVisible(false);
+    this.map.setClickable(false);
+  }
+
 
 }
