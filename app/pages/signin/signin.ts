@@ -11,7 +11,7 @@ import { MapPage } from '../map/map';
 @Component({
   templateUrl: 'build/pages/signin/signin.html',
 })
-export class SigninPage {
+export class SigninPage implements OnInit {
 
   user: User = new User();
   loading: Loading;
@@ -21,6 +21,33 @@ export class SigninPage {
     private auth: AuthService
   ) {}
 
+  /***** PUBLIC *****/
+
+  /**
+   * goToSignupPage - navigate to Signup Page
+   */
+  goToSignupPage() {
+    this.nav.push(SignupPage);
+  }
+
+  /**
+   * goToMainPage - navigate to Main (Map) Page
+   */
+  goToMainPage() {
+    this.nav.setRoot(MapPage);
+  }
+
+  /**
+   * submit - log in and navigate to Main Page on success
+   */
+  submit() {
+    this.auth.login(this.user)
+      .then(() => this.goToMainPage());
+  }
+
+  /***** Life Cycle Hooks *****/
+
+  /* Show loading indicator and attempts to validate stored token, if any */
   ngOnInit() {
     this.loading = Loading.create({
       spinner: 'ios',
@@ -28,30 +55,14 @@ export class SigninPage {
     });
 
     this.nav.present(this.loading)
+      .then(() => this.auth.checkToken())
       .then(() => {
-        if (this.auth.checkToken()) {
-          this.loading.dismiss();
-          this.goToMainPage();
-        } else {
-          this.loading.dismiss();
-        }
+        this.loading.dismiss();
+        this.goToMainPage();
       })
       .catch(err => {
         this.loading.dismiss();
       });
-  }
-
-  goToSignupPage() {
-    this.nav.push(SignupPage);
-  }
-
-  goToMainPage() {
-    this.nav.setRoot(MapPage);
-  }
-
-  submit() {
-    this.auth.login(this.user)
-      .then(() => this.goToMainPage());
   }
 
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 
 import { Storage, LocalStorage } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
@@ -16,19 +16,30 @@ export class AuthService {
     this.local = new Storage(LocalStorage);
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body;
-  }
+  /***** PUBLIC *****/
 
+  /**
+   * checkToken - validate token stored in the LocalStorage
+   *
+   * @return {Promise<any>} that resolves if the token is valid, and rejects if token is invalid
+   */
   checkToken() {
     return this.local.get('jwt')
       .then(token => {
-        return this.http.post(URL.CREMA_API + '/auth/checkToken', token).toPromise();
+        if (!token) { throw new Error('Empty token - Unauthenticated'); }
+        let headers = new Headers();
+        headers.append('Authorization', `JWT ${token}`)
+        return this.http.get(URL.CREMA_API + '/auth/checkToken', { headers }).toPromise();
       });
   }
 
-// add to this function: save token to local storage: 'local-storage""'
+
+  /**
+   * login - log user in and store JWT token in LocalStorage for later use
+   *
+   * @param  {User} user credentials
+   * @return {Promise<any>} that resolves on login success and rejects on login error
+   */
   login(user: User) {
     return this.http.post(URL.CREMA_API + '/auth/login', user)
       .toPromise()
@@ -42,7 +53,13 @@ export class AuthService {
       });
   }
 
-// add to this function: save token to local storage: 'local-storage""'
+
+  /**
+   * signup - sign up user and store JWT token in LocalStorage
+   *
+   * @param  {User}
+   * @return {Promise<any>} that resolves on sign-up success and rejects on failure
+   */
   signup(user: User) {
     return this.http.post(URL.CREMA_API + '/auth/signup', user)
       .toPromise()
@@ -56,7 +73,21 @@ export class AuthService {
       });
   }
 
+
+  /**
+   * logout - deletes the cached JWT token
+   *
+   * @return {Promise<void>} that resolves when token is removed from cached
+   */
   logout() {
     return this.local.remove('jwt');
+  }
+
+  /***** PRIVATE *****/
+
+  /* Extract JSON data from the body */
+  private extractData(res: Response) {
+    let body = res.json();
+    return body;
   }
 }

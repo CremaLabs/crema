@@ -11,7 +11,7 @@ import { MapPage } from '../map/map';
   templateUrl: 'build/pages/signup/signup.html',
 })
 export class SignupPage {
-  
+
   user: User = new User();
 
   constructor(
@@ -21,14 +21,26 @@ export class SignupPage {
 
   }
 
+  /***** PUBLIC *****/
+
+  /**
+   * goBack - navigate back to last page
+   */
   goBack() {
     this.nav.pop();
   }
 
+
+  /**
+   * goToMainPage - navigate to Main (Map) page
+   */
   goToMainPage() {
     this.nav.setRoot(MapPage);
   }
 
+  /**
+   * submit - sign up and navigate to Main page if successful
+   */
   submit() {
     this.auth.signup(this.user)
       .then(() => this.goToMainPage());

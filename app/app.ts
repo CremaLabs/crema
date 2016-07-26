@@ -3,10 +3,7 @@ import {Platform, MenuController, Nav, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 
 import { MapPage } from './pages/map/map';
-import { UserSettingsPage } from './pages/user-settings/user-settings';
 import { SigninPage } from './pages/signin/signin';
-import { LogoutPage } from './pages/logout/logout';
-
 
 import {AuthService} from './providers/auth/auth.service';
 import {ShopService} from './providers/shops/shops.service';
@@ -24,7 +21,8 @@ export class MyApp {
 
   constructor(
     private platform: Platform,
-    private menu: MenuController
+    private menu: MenuController,
+    private auth: AuthService
   ) {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -32,15 +30,33 @@ export class MyApp {
       StatusBar.styleDefault();
     });
     this.pages = [
-      { title: 'Home', component: MapPage },
-      { title: 'User Settings', component: UserSettingsPage },
-      { title: 'Logout', component: LogoutPage }
+      { title: 'Home', component: MapPage }
     ];
   }
 
+  /***** PUBLIC *****/
+
+
+  /**
+   * openPage - open a page and closes the side menu
+   *
+   * @param  {Component} page to open
+   */
   openPage(page) {
     this.menu.close();
     this.nav.setRoot(page.component);
+  }
+
+
+  /**
+   * logout - log out and redirect to log-in page      
+   */
+  logout() {
+    this.auth.logout()
+      .then(() => {
+        this.menu.close();
+        this.nav.setRoot(SigninPage);
+      });
   }
 }
 

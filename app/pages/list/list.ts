@@ -20,8 +20,18 @@ export class ListPage {
     this.shops = params.get('shops');
   }
 
+  /***** PUBLIC *****/
+
+  /**
+   * getRoominess - get label for current shop's availability rating
+   * @param {Shop} shop
+   */
   getRoominess(shop) { return this.shopService.getRoominess(shop); }
 
+  /**
+   * openShopModal - open modal to view selected shop's info
+   * @param {Shop} shop selected
+   */
   openShopModal(shop) {
     let modal = Modal.create(CafeModal, { shop: shop });
     this.nav.present(modal);
