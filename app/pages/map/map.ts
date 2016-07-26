@@ -45,6 +45,10 @@ export class MapPage {
 
   /***** PUBLIC *****/
 
+
+  /**
+   * search - search cafes for current view's coordinates
+   */
   search() {
     let loader = Loading.create({content: 'Searching cafes...'});
     this.nav.present(loader);
@@ -59,6 +63,12 @@ export class MapPage {
       .then(() => loader.dismiss());
   }
 
+  /**
+   * focusCurrentLocation - change map view to current location,
+   *   and perform another search for nearby cafes
+   *
+   * @return {type}  description
+   */
   focusCurrentLocation() {
     this.map.animateCamera({
       target: this.currentLocation,
@@ -68,17 +78,14 @@ export class MapPage {
     this.displayShopsAtCurrentPosition();
   }
 
-  getMarkerColor(score: number) {
-    if (!score) { return 'grey'; }
-    score = Math.floor(score);
-    if (score <= 3) { return 'green'; } //  Roomy
-    if (score > 3) { return 'red'; } // Full
-  }
-
+  /**
+   * getRoominess - get availability rating label
+   */
   getRoominess(shop) { return this.shopService.getRoominess(shop); }
 
   /***** PRIVATE *****/
 
+  /* Initialize the map with default settings, at current GPS location */
   private initMapAtCurrentPosition() {
     this.map = new GoogleMap('map-canvas', {
       'controls': { 'compass': true },
@@ -89,10 +96,15 @@ export class MapPage {
     this.map.setClickable(true);
     this.map.setBackgroundColor('white');
     this.map.setZoom(15);
+
+    // On map ready, show CURRENT_LOCATION marker, and perform search for nearby cafes
     this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
       this.addCurrentLocationMarker(true);
       this.displayShopsAtCurrentPosition();
     });
+
+    // Show 'Re-do Search' button when camera view changes,
+    // and the view does not include current location
     this.map.on(GoogleMapsEvent.CAMERA_CHANGE).subscribe(pos => {
       this.map.getVisibleRegion().then(region => {
         const bound = new GoogleMapsLatLngBounds(region.southwest, region.northeast);
@@ -122,6 +134,7 @@ export class MapPage {
       .catch(err => console.log('Error retrieving current location: ', JSON.stringify(err)));
   }
 
+  /* Search for nearby cafes, and add markers on the map */
   private displayShopsAtCurrentPosition() {
     let loader = Loading.create({content: 'Searching nearby cafes...'});
     this.nav.present(loader);
@@ -135,6 +148,15 @@ export class MapPage {
       .then(() => loader.dismiss());
   }
 
+  /* Get map marker color for given availability rating */
+  private getMarkerColor(score: number) {
+    if (!score) { return 'grey'; }
+    score = Math.floor(score);
+    if (score <= 3) { return 'green'; } //  Roomy
+    if (score > 3) { return 'red'; } // Full
+  }
+
+  /* Add marker for given shop's position */
   private addMarkersForShops(shops) {
     shops.forEach(shop => {
       let location = shop.geometry.location;
@@ -169,6 +191,7 @@ export class MapPage {
 
   /***** Life-Cycle Events *****/
 
+  /* Display map navigation enter */
   ionViewWillEnter() {
     if (this.map) {
       this.map.setVisible(true);
@@ -176,6 +199,11 @@ export class MapPage {
     }
   }
 
+  /*
+   * Disable map before navigating away
+   * Note: NOT disabling map click will causes any element floating
+   *       on top of the Map page to be unclickable (e.g. Cafe Modal)
+   */
   ionViewWillLeave() {
     this.map.setVisible(false);
     this.map.setClickable(false);
