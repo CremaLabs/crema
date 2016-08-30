@@ -1,7 +1,7 @@
 # Crema - Mobile
 
 Find the nearest coffee shops that you can work from. <br/>
-Crema uses ratings submitted by its users to gather real-time availability information for cafes everywhere, so that you never go to one with no place to work again. <br/>
+Crema uses ratings submitted by its users to gather real-time availability information for cafes everywhere, so that you never go to one with no place to work again. <br/><br/>
 ![alt text](./www/images/crema.gif "Crema Screencast")
 
 ## Architecture
