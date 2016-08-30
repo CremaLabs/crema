@@ -3,6 +3,8 @@
 
 Find the nearest coffee shops that you can work from. <br/>
 
+![alt text](./www/images/crema.gif "Crema Screencast")
+
 
 
 
