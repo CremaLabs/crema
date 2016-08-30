@@ -1,15 +1,19 @@
 # Crema - Mobile
 
-
 Find the nearest coffee shops that you can work from. <br/>
-
+Crema uses ratings submitted by its users to gather real-time availability information for cafes everywhere, so that you never go to one with no place to work again. <br/>
 ![alt text](./www/images/crema.gif "Crema Screencast")
 
+## Architecture
+![alt text](./www/images/ArchitectureDiagram.png "Crema Architecture")
 
+## Team
+* Design Lead, Software Engineer  - Sompop Suksawat
+* Product Owner, Software Engineer - Andy Brown
+* Scrum Master, Software Engineer - Justin Ross
+* Software Engineer - Conway Wang
 
-
-## How To Run Application
-
+## How To Run
 
 ### Install Ionic 2 and Cordova
 
@@ -27,7 +31,7 @@ npm install -g ios-deploy
 
 ### iOS Emulator
 
-1. Fork the repo `git clone https://github.com/Political-Tambourine/crema.git && cd crema`
+1. Fork the repo `git clone https://github.com/CremaLabs/crema.git && cd crema`
 2. Install package dependencies: `npm install`
 3. Add iOS as platform: `ionic platform add ios@4.1.1` <br/>
    Latest version may be unstable - use version 4.1.1
