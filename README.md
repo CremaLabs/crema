@@ -4,15 +4,16 @@ Find the nearest coffee shops that you can work from. <br/>
 Crema uses ratings submitted by its users to gather real-time availability information for cafes everywhere, so that you never go to one with no place to work again. <br/>
 ![alt text](./www/images/crema.gif "Crema Screencast")
 
+## Architecture
+![alt text](./www/images/ArchitectureDiagram.png "Crema Architecture")
+
 ## Team
 * Design Lead, Software Engineer  - Sompop Suksawat
 * Product Owner, Software Engineer - Andy Brown
 * Scrum Master, Software Engineer - Justin Ross
 * Software Engineer - Conway Wang
 
-
 ## How To Run
-
 
 ### Install Ionic 2 and Cordova
 
